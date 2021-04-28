@@ -10,7 +10,41 @@ class SignInPage extends StatelessWidget {
         ),
         elevation: 4.0,
       ),
+      body: _buildContent(),
+    );
+  }
+
+  Widget _buildContent() {
+    return Padding(
+      padding: EdgeInsets.all(16.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Text(
+            'Sign in',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 32.0,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          SizedBox(height: 8.0),
+          Container(
+            color: Colors.red,
+            child: SizedBox(
+              height: 100.0,
+            ),
+          ),
+          SizedBox(height: 8.0),
+          Container(
+            color: Colors.green,
+            child: SizedBox(
+              height: 100.0,
+            ),
+          )
+        ],
+      ),
     );
   }
 }
-
