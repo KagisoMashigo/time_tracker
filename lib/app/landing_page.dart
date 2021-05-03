@@ -8,6 +8,7 @@ class LandingPage extends StatefulWidget {
   _LandingPageState createState() => _LandingPageState();
 }
 
+// Landing page
 class _LandingPageState extends State<LandingPage> {
   User _user;
 
