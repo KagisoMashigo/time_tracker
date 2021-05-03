@@ -8,6 +8,7 @@ Future<void> main() async {
   runApp(MyApp());
 }
 
+// Main app call
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
