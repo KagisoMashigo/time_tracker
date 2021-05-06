@@ -26,9 +26,16 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
   String get _password => _passwordController.text;
 
   EmailSignInFormType _formType = EmailSignInFormType.signIn;
+  bool _submitted = false;
+  bool _isLoading = false;
 
   void _submit() async {
+    setState(() {
+      _submitted = true;
+      _isLoading = true;
+    });
     try {
+      await Future.delayed(Duration(seconds: 3));
       if (_formType == EmailSignInFormType.signIn) {
         await widget.auth.signInWithEmailAndPassword(_email, _password);
       } else {
@@ -37,15 +44,23 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
       Navigator.of(context).pop();
     } catch (e) {
       print(e.toString());
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
   void _emailEditingComplete() {
-    FocusScope.of(context).requestFocus(_passwordFocusNode);
+    final finalFocus = widget.emailValidator.isValid(_email)
+        ? _passwordFocusNode
+        : _emailFocusNode;
+    FocusScope.of(context).requestFocus(finalFocus);
   }
 
   void _toggleText() {
     setState(() {
+      _submitted = false;
       _formType = _formType == EmailSignInFormType.signIn
           ? EmailSignInFormType.register
           : EmailSignInFormType.signIn;
@@ -63,7 +78,8 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
         : 'Have an Account? Sign In';
 
     bool submitEnabled = widget.emailValidator.isValid(_email) &&
-        widget.emailValidator.isValid(_password);
+        widget.emailValidator.isValid(_password) &&
+        !_isLoading;
 
     return [
       _buildPasswordTextField(),
@@ -83,16 +99,23 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
       ),
       FlatButton(
         child: Text(secondaryText),
-        onPressed: _toggleText,
+        onPressed: !_isLoading ? _toggleText : null,
       ),
     ];
   }
 
+  //Mixed the names up of these methods, its just the name that is wrong. Deal with it.
   TextField _buildPasswordTextField() {
+    bool showErrorText = _submitted && !widget.emailValidator.isValid(_email);
+
     return TextField(
       controller: _emailController,
-      decoration:
-          InputDecoration(labelText: 'Email', hintText: 'time@tracker.com'),
+      decoration: InputDecoration(
+        labelText: 'Email',
+        hintText: 'time@tracker.com',
+        errorText: showErrorText ? widget.invalidEmailErrorText : null,
+        enabled: _isLoading == false,
+      ),
       autocorrect: false,
       onEditingComplete: _submit,
       keyboardType: TextInputType.emailAddress,
@@ -102,7 +125,11 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
     );
   }
 
+  //Mixed the names up of these methods, its just the name that is wrong. Deal with it.
   TextField _buildEmailTextField() {
+    bool showErrorText =
+        _submitted && !widget.passwordValidator.isValid(_password);
+
     return TextField(
       controller: _passwordController,
       textInputAction: TextInputAction.done,
@@ -111,6 +138,8 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
       onEditingComplete: _emailEditingComplete,
       decoration: InputDecoration(
         labelText: 'Password',
+        errorText: showErrorText ? widget.invalidPasswordErrorText : null,
+        enabled: _isLoading == false,
         // hintText: '12345 - jk',
       ),
       obscureText: true,
