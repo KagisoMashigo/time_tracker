@@ -1,34 +1,56 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:time_tracker_flutter_course/common_widgets/form_submit_button.dart';
+import 'package:time_tracker_flutter_course/services/auth.dart';
 
 enum EmailSignInFormType { signIn, register }
 
-class EmailSIgnInForm extends StatefulWidget {
-  const EmailSIgnInForm({Key key}) : super(key: key);
+class EmailSignInForm extends StatefulWidget {
+  EmailSignInForm({Key key, @required this.auth}) : super(key: key);
+  AuthBase auth;
 
   @override
-  _EmailSIgnInFormState createState() => _EmailSIgnInFormState();
+  _EmailSignInFormState createState() => _EmailSignInFormState();
 }
 
-class _EmailSIgnInFormState extends State<EmailSIgnInForm> {
+class _EmailSignInFormState extends State<EmailSignInForm> {
   // const EmailSIgnInForm({Key key}) : super(key: key);
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final FocusNode _emailFocusNode = FocusNode();
+  final FocusNode _passwordFocusNode = FocusNode();
+
+  String get _email => _emailController.text;
+  String get _password => _passwordController.text;
 
   EmailSignInFormType _formType = EmailSignInFormType.signIn;
 
-  void _submit() {
-    print(
-        'Email: ${_emailController.text}, password: ${_passwordController.text}');
+  void _submit() async {
+    try {
+      if (_formType == EmailSignInFormType.signIn) {
+        await widget.auth.signInWithEmailAndPassword(_email, _password);
+      } else {
+        await widget.auth.createUserWithEmailAndPassword(_email, _password);
+      }
+      Navigator.of(context).pop();
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  void _emailEditingComplete() {
+    FocusScope.of(context).requestFocus(_passwordFocusNode);
   }
 
   void _toggleText() {
     setState(() {
-      _formType = _formType == EmailSignInFormType.signIn ?
-          EmailSignInFormType.register : EmailSignInFormType.signIn;
+      _formType = _formType == EmailSignInFormType.signIn
+          ? EmailSignInFormType.register
+          : EmailSignInFormType.signIn;
     });
+    _emailController.clear();
+    _passwordController.clear();
   }
 
   List<Widget> _buildChildren() {
@@ -39,22 +61,11 @@ class _EmailSIgnInFormState extends State<EmailSIgnInForm> {
         ? 'Need an Account? Register'
         : 'Have an Account? Sign In';
     return [
-      TextField(
-        controller: _emailController,
-        decoration:
-            InputDecoration(labelText: 'Email', hintText: 'time@tracker.com'),
-      ),
+      _buildPasswordTextField(),
       SizedBox(
         height: 8.0,
       ),
-      TextField(
-        controller: _passwordController,
-        decoration: InputDecoration(
-          labelText: 'Password',
-          // hintText: '12345 - jk',
-        ),
-        obscureText: true,
-      ),
+      _buildEmailTextField(),
       SizedBox(
         height: 8.0,
       ),
@@ -67,9 +78,36 @@ class _EmailSIgnInFormState extends State<EmailSIgnInForm> {
       ),
       FlatButton(
         child: Text(secondaryText),
-        onPressed: _toggleText ,
+        onPressed: _toggleText,
       ),
     ];
+  }
+
+  TextField _buildPasswordTextField() {
+    return TextField(
+      controller: _emailController,
+      decoration:
+          InputDecoration(labelText: 'Email', hintText: 'time@tracker.com'),
+      autocorrect: false,
+      onEditingComplete: _submit,
+      keyboardType: TextInputType.emailAddress,
+      textInputAction: TextInputAction.next,
+      focusNode: _passwordFocusNode,
+    );
+  }
+
+  TextField _buildEmailTextField() {
+    return TextField(
+      controller: _passwordController,
+      textInputAction: TextInputAction.done,
+      focusNode: _emailFocusNode,
+      onEditingComplete: _emailEditingComplete,
+      decoration: InputDecoration(
+        labelText: 'Password',
+        // hintText: '12345 - jk',
+      ),
+      obscureText: true,
+    );
   }
 
   @override
