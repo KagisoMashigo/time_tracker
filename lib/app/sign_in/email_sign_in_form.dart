@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:time_tracker_flutter_course/app/sign_in/validators.dart';
 import 'package:time_tracker_flutter_course/common_widgets/form_submit_button.dart';
 import 'package:time_tracker_flutter_course/services/auth.dart';
 
 enum EmailSignInFormType { signIn, register }
 
-class EmailSignInForm extends StatefulWidget {
+class EmailSignInForm extends StatefulWidget with EmailAndPasswordValidators {
   EmailSignInForm({Key key, @required this.auth}) : super(key: key);
   AuthBase auth;
 
@@ -61,7 +62,8 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
         ? 'Need an Account? Register'
         : 'Have an Account? Sign In';
 
-    bool submitEnabled = _email.isNotEmpty && _password.isNotEmpty;
+    bool submitEnabled = widget.emailValidator.isValid(_email) &&
+        widget.emailValidator.isValid(_password);
 
     return [
       _buildPasswordTextField(),
@@ -128,7 +130,6 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
   }
 
   void _updateState() {
-    print('Password: $_password, Email: _$_email');
     setState(() {});
   }
 }
