@@ -2,12 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:time_tracker_flutter_course/common_widgets/show_alert_dialog.dart';
 import 'package:time_tracker_flutter_course/services/auth.dart';
+import 'package:time_tracker_flutter_course/services/auth_provider.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key key, @required this.auth}) : super(key: key);
-  final AuthBase auth;
 
-  Future<void> _signOut() async {
+
+  Future<void> _signOut(BuildContext context) async {
+  final auth = AuthProvider.of(context);
     try {
       await auth.signOut();
     } catch (e) {
@@ -15,7 +16,7 @@ class HomePage extends StatelessWidget {
     }
   }
 
-  Future<void> _confrimSignOut(BuildContext context) async {
+  Future<void> _confirmSignOut(BuildContext context) async {
     final confirmSignOut = await showAlertDialog(
       context,
       title: 'Logout',
@@ -24,7 +25,7 @@ class HomePage extends StatelessWidget {
       cancelActionText: 'Cancel',
     );
     if (confirmSignOut == true) {
-      _signOut();
+      _signOut(context);
     }
   }
 
@@ -35,7 +36,7 @@ class HomePage extends StatelessWidget {
       title: Text('Home Page'),
       actions: <Widget>[
         FlatButton(
-          onPressed: () => _confrimSignOut(context),
+          onPressed: () => _confirmSignOut(context),
           child: Text(
             'Logout',
             style: TextStyle(
