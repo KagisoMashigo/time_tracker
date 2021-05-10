@@ -87,7 +87,7 @@ class Auth implements AuthBase {
         return userCredential.user;
       case FacebookLoginStatus.Cancel:
         throw FirebaseAuthException(
-          code: "ERROR_ABORTED_BY_USER",
+          code: "ERROR_USER",
           message: "Sign in aborted by user",
         );
       case FacebookLoginStatus.Error:
