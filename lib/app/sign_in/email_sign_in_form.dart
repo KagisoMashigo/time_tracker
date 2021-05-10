@@ -1,15 +1,11 @@
-import 'dart:io';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:time_tracker_flutter_course/app/sign_in/validators.dart';
 import 'package:time_tracker_flutter_course/common_widgets/form_submit_button.dart';
-import 'package:time_tracker_flutter_course/common_widgets/show_alert_dialog.dart';
 import 'package:time_tracker_flutter_course/common_widgets/show_excpetion_alert_dialog.dart';
 import 'package:time_tracker_flutter_course/services/auth.dart';
-import 'package:time_tracker_flutter_course/services/auth_provider.dart';
 
 enum EmailSignInFormType { signIn, register }
 
@@ -20,7 +16,6 @@ class EmailSignInForm extends StatefulWidget with EmailAndPasswordValidators {
 }
 
 class _EmailSignInFormState extends State<EmailSignInForm> {
-  // const EmailSIgnInForm({Key key}) : super(key: key);
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -33,6 +28,15 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
   EmailSignInFormType _formType = EmailSignInFormType.signIn;
   bool _submitted = false;
   bool _isLoading = false;
+
+  @override
+  void dispose() {
+    _emailFocusNode.dispose();
+    _emailController.dispose();
+    _passwordFocusNode.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   void _submit() async {
     setState(() {
