@@ -1,6 +1,7 @@
-import 'package:time_tracker_flutter_course/app/sign_in/email_sign_in_form_stateful.dart';
+enum EmailSignInFormType { signIn, register }
 
 class EmailSignInModel {
+
   EmailSignInModel({
     this.password,
     this.email,
