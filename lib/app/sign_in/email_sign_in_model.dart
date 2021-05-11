@@ -3,13 +3,12 @@ enum EmailSignInFormType { signIn, register }
 class EmailSignInModel {
 
   EmailSignInModel({
-    this.password,
-    this.email,
-    this.isLoading,
-    this.submitted,
-    this.formType,
+    this.password = '',
+    this.email = '',
+    this.isLoading = false,
+    this.submitted = false,
+    this.formType = EmailSignInFormType.signIn,
   });
-
   final String password;
   final String email;
   final bool isLoading;
