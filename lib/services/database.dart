@@ -1,7 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:time_tracker_flutter_course/core/data/models/job.dart';
 import 'package:time_tracker_flutter_course/services/api_path.dart';
+import 'package:time_tracker_flutter_course/services/firestore_service.dart';
 
 abstract class Database {
   Future<void> createJob(Job job);
@@ -25,33 +25,16 @@ class FirestoreDatabase implements Database {
 
   final String uid;
 
-  Future<void> createJob(Job job) => _setData(
+  // Private contructor that only allows one instance of the class to be created
+  final _service = FirestoreService.instance;
+
+  Future<void> createJob(Job job) => _service.setData(
         path: APIPath.job(uid, 'job_abc'),
         data: job.toMap(),
       );
 
-  Stream<List<Job>> jobsStream() {
-    final path = APIPath.jobs(uid);
-    final reference = FirebaseFirestore.instance.collection(path);
-    final snapshots = reference.snapshots();
-    return snapshots.map(
-      (snapshot) => snapshot.docs.map(
-        (snapshot) {
-          final data = snapshot.data();
-          return data != null
-              ? Job(
-                  name: data['name'],
-                  ratePerHour: data['ratePerHour'],
-                )
-              : null;
-        },
-      ).toList(),
-    );
-  }
-
-  Future<void> _setData({String path, Map<String, dynamic> data}) async {
-    final reference = FirebaseFirestore.instance.doc(path);
-    print('$path: $data');
-    await reference.set(data);
-  }
+  Stream<List<Job>> jobsStream() => _service.collectionStream(
+        path: APIPath.jobs(uid),
+        builder: (data) => Job.fromMap(data),
+      );
 }
