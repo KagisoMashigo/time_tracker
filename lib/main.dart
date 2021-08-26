@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:time_tracker_flutter_course/app/landing_page.dart';
+import 'package:time_tracker_flutter_course/pages/landing_page.dart';
 import 'package:time_tracker_flutter_course/services/auth.dart';
 import 'package:time_tracker_flutter_course/services/auth_provider.dart';
 
@@ -27,4 +27,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
