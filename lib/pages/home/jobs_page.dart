@@ -1,7 +1,9 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:time_tracker_flutter_course/common_widgets/show_alert_dialog.dart';
+import 'package:time_tracker_flutter_course/common_widgets/show_exception_alert_dialog.dart';
 import 'package:time_tracker_flutter_course/core/data/models/job.dart';
 import 'package:time_tracker_flutter_course/services/auth.dart';
 import 'package:time_tracker_flutter_course/services/database.dart';
@@ -31,12 +33,15 @@ class JobsPage extends StatelessWidget {
 
   Future<void> _createJob(BuildContext context) async {
     final database = Provider.of<Database>(context, listen: false);
-    database.createJob(
-      Job(
-        name: 'Yoga',
-        ratePerHour: 20,
-      ),
-    );
+    try {
+      await database.createJob(Job(name: 'Yoga', ratePerHour: 20));
+    } on FirebaseException catch (e) {
+      showExceptionAlertDialog(
+        context,
+        title: "Operation Failed",
+        exception: e,
+      );
+    }
   }
 
   @override
