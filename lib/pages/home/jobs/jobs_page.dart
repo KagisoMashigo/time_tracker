@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:time_tracker_flutter_course/common_widgets/show_alert_dialog.dart';
 import 'package:time_tracker_flutter_course/common_widgets/show_exception_alert_dialog.dart';
 import 'package:time_tracker_flutter_course/core/data/models/job.dart';
+import 'package:time_tracker_flutter_course/pages/home/jobs/add_job_page.dart';
 import 'package:time_tracker_flutter_course/services/auth.dart';
 import 'package:time_tracker_flutter_course/services/database.dart';
 
@@ -31,18 +32,18 @@ class JobsPage extends StatelessWidget {
     }
   }
 
-  Future<void> _createJob(BuildContext context) async {
-    final database = Provider.of<Database>(context, listen: false);
-    try {
-      await database.createJob(Job(name: 'Yoga', ratePerHour: 20));
-    } on FirebaseException catch (e) {
-      showExceptionAlertDialog(
-        context,
-        title: "Operation Failed",
-        exception: e,
-      );
-    }
-  }
+  // Future<void> _createJob(BuildContext context) async {
+  //   final database = Provider.of<Database>(context, listen: false);
+  //   try {
+  //     await database.createJob(Job(name: 'Yoga', ratePerHour: 20));
+  //   } on FirebaseException catch (e) {
+  //     showExceptionAlertDialog(
+  //       context,
+  //       title: "Operation Failed",
+  //       exception: e,
+  //     );
+  //   }
+  // }
 
   Widget _buildContents(BuildContext context) {
     final database = Provider.of<Database>(context, listen: false);
@@ -82,7 +83,7 @@ class JobsPage extends StatelessWidget {
       ),
       body: _buildContents(context),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _createJob(context),
+        onPressed: () => AddJobPage.show(context),
         child: Icon(Icons.add),
       ),
     );
