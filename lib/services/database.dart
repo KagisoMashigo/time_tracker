@@ -10,11 +10,7 @@ abstract class Database {
 
   // Future<void> deleteJob(Job job);
 
-  // Future<void> setEntry(Job job);
-
   // Future<void> deleteEntry(Job job);
-
-  // Stream<List<Job>> jobStream();
 
   // Stream<List<Entry>> entriesStream({Job job});
 
