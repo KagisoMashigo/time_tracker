@@ -6,7 +6,7 @@ import 'package:time_tracker_flutter_course/pages/sign_in/email_sign_in_page.dar
 import 'package:time_tracker_flutter_course/pages/sign_in/sign_in_manager.dart';
 import 'package:time_tracker_flutter_course/pages/sign_in/sign_in_button.dart';
 import 'package:time_tracker_flutter_course/pages/sign_in/social_sign_in_button.dart';
-import 'package:time_tracker_flutter_course/common_widgets/show_exception_alert_dialog.dart';
+import 'package:time_tracker_flutter_course/components/errors/show_exception_alert_dialog.dart';
 import 'package:time_tracker_flutter_course/services/auth.dart';
 
 class SignInPage extends StatelessWidget {

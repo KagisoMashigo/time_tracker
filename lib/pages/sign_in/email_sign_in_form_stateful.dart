@@ -2,8 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:time_tracker_flutter_course/pages/sign_in/validators.dart';
-import 'package:time_tracker_flutter_course/common_widgets/form_submit_button.dart';
-import 'package:time_tracker_flutter_course/common_widgets/show_exception_alert_dialog.dart';
+import 'package:time_tracker_flutter_course/components/buttons/form_submit_button.dart';
+import 'package:time_tracker_flutter_course/components/errors/show_exception_alert_dialog.dart';
 import 'package:time_tracker_flutter_course/services/auth.dart';
 
 enum EmailSignInFormType { signIn, register }
