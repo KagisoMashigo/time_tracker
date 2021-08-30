@@ -1,9 +1,7 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:time_tracker_flutter_course/common_widgets/show_alert_dialog.dart';
-import 'package:time_tracker_flutter_course/common_widgets/show_exception_alert_dialog.dart';
+import 'package:time_tracker_flutter_course/components/alert_dialogs/show_alert_dialog.dart';
 import 'package:time_tracker_flutter_course/core/data/models/job.dart';
 import 'package:time_tracker_flutter_course/pages/home/jobs/add_job_page.dart';
 import 'package:time_tracker_flutter_course/services/auth.dart';
