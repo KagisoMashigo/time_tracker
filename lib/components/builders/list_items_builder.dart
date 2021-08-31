@@ -37,8 +37,8 @@ class ListItemsBuilder<T> extends StatelessWidget {
   Widget _buildList(List<T> items) {
     // A ListView factory contructor that can return a large number of items
     return ListView.separated(
-      itemBuilder: (context, index) => itemBuilder(context, items[index]),
       separatorBuilder: (context, index) => Divider(height: 0.5),
+      itemBuilder: (context, index) => itemBuilder(context, items[index]),
       itemCount: items.length,
     );
   }
@@ -48,8 +48,8 @@ class ListItemsBuilder<T> extends StatelessWidget {
     // A ListView factory contructor that can return a large number of items
     return ListView.separated(
       itemCount: items.length + 2,
-      itemBuilder: (context, index) => itemBuilder(context, items[index]),
-      separatorBuilder: (context, index) {
+      separatorBuilder: (context, index) => Divider(height: 0.5),
+      itemBuilder: (context, index) {
         if (index == 0 || index == items.length + 1) {
           return Container();
         }
