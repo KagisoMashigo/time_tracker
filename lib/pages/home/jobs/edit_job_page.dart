@@ -43,7 +43,6 @@ class _EditJobPageState extends State<EditJobPage> {
     super.initState();
     if (widget.job != null) {
       _name = widget.job.name;
-      // Not correctly showing
       _ratePerHour = widget.job.ratePerHour;
     }
   }
