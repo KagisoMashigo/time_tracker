@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
 class Job {
-  Job({@required this.name, @required this.ratePerHour});
+  Job({@required this.name, @required this.ratePerHour, @required this.id});
 
   final int ratePerHour;
   final String name;
+  final String id;
 
-  factory Job.fromMap(Map<String, dynamic> data) {
+  factory Job.fromMap(Map<String, dynamic> data, String docmentId) {
     if (data == null) {
       return null;
     }
@@ -15,6 +16,7 @@ class Job {
     return Job(
       name: name,
       ratePerHour: ratePerHour,
+      id: docmentId,
     );
   }
 
