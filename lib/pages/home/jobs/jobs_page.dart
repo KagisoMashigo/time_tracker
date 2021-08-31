@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:time_tracker_flutter_course/components/alert_dialogs/show_alert_dialog.dart';
-import 'package:time_tracker_flutter_course/components/empty_content.dart';
+import 'package:time_tracker_flutter_course/components/builders/list_items_builder.dart';
 import 'package:time_tracker_flutter_course/components/job_list_tile.dart';
 import 'package:time_tracker_flutter_course/core/data/models/job.dart';
 import 'package:time_tracker_flutter_course/pages/home/jobs/edit_job_page.dart';
@@ -32,41 +32,17 @@ class JobsPage extends StatelessWidget {
     }
   }
 
-  // Future<void> _createJob(BuildContext context) async {
-  //   final database = Provider.of<Database>(context, listen: false);
-  //   try {
-  //     await database.createJob(Job(name: 'Yoga', ratePerHour: 20));
-  //   } on FirebaseException catch (e) {
-  //     showExceptionAlertDialog(
-  //       context,
-  //       title: "Operation Failed",
-  //       exception: e,
-  //     );
-  //   }
-  // }
-
   Widget _buildContents(BuildContext context) {
     final database = Provider.of<Database>(context, listen: false);
     return StreamBuilder<List<Job>>(
       stream: database.jobsStream(),
       builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          final jobs = snapshot.data;
-          if (jobs.isNotEmpty) {
-            final children = jobs
-                .map((job) => JobsListTile(
-                      job: job,
-                      onTap: () => EditJobPage.show(context, job: job),
-                    ))
-                .toList();
-            return ListView(children: children);
-          }
-          return EmptyContent();
-        }
-        if (snapshot.hasError) {
-          return Center(child: Text('You done fucked up dawg'));
-        }
-        return Center(child: CircularProgressIndicator());
+        return ListItemsBuilder<Job>(
+            snapshot: snapshot,
+            itemBuilder: (context, job) => JobsListTile(
+                  job: job,
+                  onTap: () => EditJobPage.show(context, job: job),
+                ));
       },
     );
   }
