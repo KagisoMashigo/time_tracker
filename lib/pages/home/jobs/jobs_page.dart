@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:time_tracker_flutter_course/components/alert_dialogs/show_alert_dialog.dart';
+import 'package:time_tracker_flutter_course/components/empty_content.dart';
 import 'package:time_tracker_flutter_course/components/job_list_tile.dart';
 import 'package:time_tracker_flutter_course/core/data/models/job.dart';
 import 'package:time_tracker_flutter_course/pages/home/jobs/edit_job_page.dart';
@@ -51,13 +52,16 @@ class JobsPage extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           final jobs = snapshot.data;
-          final children = jobs
-              .map((job) => JobsListTile(
-                    job: job,
-                    onTap: () => EditJobPage.show(context, job: job),
-                  ))
-              .toList();
-          return ListView(children: children);
+          if (jobs.isNotEmpty) {
+            final children = jobs
+                .map((job) => JobsListTile(
+                      job: job,
+                      onTap: () => EditJobPage.show(context, job: job),
+                    ))
+                .toList();
+            return ListView(children: children);
+          }
+          return EmptyContent();
         }
         if (snapshot.hasError) {
           return Center(child: Text('You done fucked up dawg'));
