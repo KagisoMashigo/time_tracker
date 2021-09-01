@@ -20,7 +20,10 @@ class ListItemsBuilder<T> extends StatelessWidget {
       if (items.isNotEmpty) {
         return _buildListSeparatedAtEnds(items);
       } else {
-        return EmptyContent();
+        return EmptyContent(
+          title: 'Add something new',
+          message: 'Seriously, there\'s nothing here',
+        );
       }
     } else if (snapshot.hasError) {
       return EmptyContent(

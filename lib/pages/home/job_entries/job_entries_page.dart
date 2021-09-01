@@ -23,6 +23,7 @@ class JobEntriesPage extends StatelessWidget {
     final database = Provider.of<Database>(context, listen: false);
     await Navigator.of(context).push(
       MaterialPageRoute(
+        // on iOS it slides the page in from the right with a back button
         fullscreenDialog: false,
         builder: (context) => JobEntriesPage(database: database, job: job),
       ),
@@ -53,7 +54,8 @@ class JobEntriesPage extends StatelessWidget {
               'Edit',
               style: TextStyle(fontSize: 18.0, color: Colors.white),
             ),
-            onPressed: () => EditJobPage.show(context, job: job),
+            onPressed: () =>
+                EditJobPage.show(context, job: job, database: database),
           ),
         ],
       ),
