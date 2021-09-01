@@ -24,8 +24,8 @@ class ListItemsBuilder<T> extends StatelessWidget {
       }
     } else if (snapshot.hasError) {
       return EmptyContent(
-        title: 'Somehthing went wrong',
-        message: 'Cannot load items right not',
+        title: 'Something went wrong',
+        message: 'Cannot load items right now',
       );
     }
     return Center(

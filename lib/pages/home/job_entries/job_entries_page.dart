@@ -48,7 +48,7 @@ class JobEntriesPage extends StatelessWidget {
         elevation: 2.0,
         title: Text(job.name),
         actions: <Widget>[
-          FlatButton(
+          TextButton(
             child: Text(
               'Edit',
               style: TextStyle(fontSize: 18.0, color: Colors.white),

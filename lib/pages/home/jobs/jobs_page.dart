@@ -7,6 +7,7 @@ import 'package:time_tracker_flutter_course/components/builders/list_items_build
 import 'package:time_tracker_flutter_course/components/errors/show_exception_alert_dialog.dart';
 import 'package:time_tracker_flutter_course/components/job_list_tile.dart';
 import 'package:time_tracker_flutter_course/core/data/models/job.dart';
+import 'package:time_tracker_flutter_course/pages/home/job_entries/job_entries_page.dart';
 import 'package:time_tracker_flutter_course/pages/home/jobs/edit_job_page.dart';
 import 'package:time_tracker_flutter_course/services/auth.dart';
 import 'package:time_tracker_flutter_course/services/database.dart';
@@ -87,7 +88,7 @@ class JobsPage extends StatelessWidget {
                   direction: DismissDirection.endToStart,
                   child: JobsListTile(
                     job: job,
-                    onTap: () => EditJobPage.show(context, job: job),
+                    onTap: () => JobEntriesPage.show(context, job),
                   ),
                 ));
       },
