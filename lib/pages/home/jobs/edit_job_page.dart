@@ -17,7 +17,7 @@ class EditJobPage extends StatefulWidget {
       {Database database, Job job}) async {
     // New widgets pushed from navigator will be children of the material app
     // pay attention to their context
-    await Navigator.of(context).push(MaterialPageRoute(
+    await Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
       builder: (context) => EditJobPage(
         database: database,
         job: job,

@@ -21,8 +21,10 @@ class JobEntriesPage extends StatelessWidget {
 
   static Future<void> show(BuildContext context, Job job) async {
     final database = Provider.of<Database>(context, listen: false);
+    // Root navigator set to true is especially useful when you
+    // want the user to not be able to navigate away
     await Navigator.of(context).push(
-      MaterialPageRoute(
+      CupertinoPageRoute(
         // on iOS it slides the page in from the right with a back button
         fullscreenDialog: false,
         builder: (context) => JobEntriesPage(database: database, job: job),
@@ -46,25 +48,29 @@ class JobEntriesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         elevation: 2.0,
         title: Text(job.name),
         actions: <Widget>[
-          TextButton(
-            child: Text(
-              'Edit',
-              style: TextStyle(fontSize: 18.0, color: Colors.white),
+          IconButton(
+            icon: Icon(Icons.edit, color: Colors.white),
+            onPressed: () => EditJobPage.show(
+              context,
+              job: job,
+              database: database,
             ),
-            onPressed: () =>
-                EditJobPage.show(context, job: job, database: database),
+          ),
+          IconButton(
+            icon: Icon(Icons.add, color: Colors.white),
+            onPressed: () => EntryPage.show(
+              context: context,
+              database: database,
+              job: job,
+            ),
           ),
         ],
       ),
       body: _buildContent(context, job),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () =>
-            EntryPage.show(context: context, database: database, job: job),
-      ),
     );
   }
 
